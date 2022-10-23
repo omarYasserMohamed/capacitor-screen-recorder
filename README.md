@@ -7,6 +7,10 @@
 
 Record device's screen
 
+## Updated by DFKI
+
+This Fork adjusts the resolution for android to work on Android 12, and changes the stop() function to return the video file after stopping the recording.
+
 ## Install
 
 ```bash
@@ -37,12 +41,10 @@ increase project's minSdk version to at least 23.
 ### start()
 
 ```typescript
-start() => any
+start() => Promise<void>
 ```
 
 start the recording
-
-**Returns:** <code>any</code>
 
 --------------------
 
@@ -50,12 +52,10 @@ start the recording
 ### stop()
 
 ```typescript
-stop() => any
+stop() => Promise<void>
 ```
 
 stop the recording
-
-**Returns:** <code>any</code>
 
 --------------------
 
