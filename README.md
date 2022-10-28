@@ -9,7 +9,7 @@ Record device's screen
 
 ## Updated by DFKI
 
-This Fork adjusts the resolution for android to work on Android 12, and it adds the PluginMethod getVideo(PluginCall call), that returns an JSObject that includes the parameter video which has the value of the base64 encoding of the byte array of the recording's file.
+This Fork adjusts the resolution for android to work on Android 12, and it adds the PluginMethod getVideo(PluginCall call), that returns an JSObject that includes a parameter (video), which has the value of the base64 encoding of the byte array of the recording's file.
 
 ## Install
 
@@ -66,7 +66,7 @@ stop the recording
 getVideo() => Promise<String>
 ```
 
-returns a promise with parameter video which has the value of the base64 encoding of the byte array of the recording's file. 
+returns a promise with a parameter (video), which has the value of the base64 encoding of the byte array of the recording's file. 
 
 --------------------
 
