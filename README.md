@@ -9,7 +9,7 @@ Record device's screen
 
 ## Updated by DFKI
 
-This Fork adjusts the resolution for android to work on Android 12, and changes the stop() function to return the video file after stopping the recording.
+This Fork adjusts the resolution for android to work on Android 12, and it adds the PluginMethod getVideo(PluginCall call), that returns an JSObject that includes the parameter video which has the value of the base64 encoding of the byte array of the recording's file.
 
 ## Install
 
@@ -32,6 +32,7 @@ increase project's minSdk version to at least 23.
 
 * [`start()`](#start)
 * [`stop()`](#stop)
+* [`getVideo()`](#getVideo)
 
 </docgen-index>
 
@@ -56,6 +57,16 @@ stop() => Promise<void>
 ```
 
 stop the recording
+
+--------------------
+
+### getVideo()
+
+```typescript
+getVideo() => Promise<String>
+```
+
+returns a promise with parameter video which has the value of the base64 encoding of the byte array of the recording's file. 
 
 --------------------
 

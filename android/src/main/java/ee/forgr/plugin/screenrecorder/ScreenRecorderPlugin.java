@@ -1,15 +1,26 @@
 package ee.forgr.plugin.screenrecorder;
 
+import static java.nio.file.Files.size;
+
+
 import android.media.MediaRecorder;
+import android.os.Build;
+import android.util.Base64;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
+import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 
+import org.json.JSONException;
+
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 import dev.bmcreations.scrcast.ScrCast;
 import dev.bmcreations.scrcast.config.Options;
@@ -18,11 +29,12 @@ import dev.bmcreations.scrcast.recorder.RecordingCallbacks;
 import dev.bmcreations.scrcast.recorder.RecordingState;
 
 
+
 @CapacitorPlugin(name = "ScreenRecorder")
 public class ScreenRecorderPlugin extends Plugin {
 
     private ScrCast recorder;
-    private File video;
+    private byte[] video;
 
 
     @Override
@@ -38,9 +50,16 @@ public class ScreenRecorderPlugin extends Plugin {
 
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onRecordingFinished(@NonNull File file) {
-                video = file;
+                try {
+                    byte[] bytes = Files.readAllBytes(file.toPath());
+                    video = bytes;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
     }
@@ -52,9 +71,15 @@ public class ScreenRecorderPlugin extends Plugin {
     }
 
     @PluginMethod
-    public File stop(PluginCall call) {
+    public void stop(PluginCall call) {
         recorder.stopRecording();
         call.resolve();
-        return video;
+    }
+    @PluginMethod
+    public void getVideo(PluginCall call) throws InterruptedException, JSONException {
+        Thread.sleep(100);
+        JSObject ret = new JSObject();
+        ret.put("video", new String(Base64.encode(video, Base64.NO_WRAP)));
+        call.resolve(ret);
     }
 }
